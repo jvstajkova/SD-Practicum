@@ -1,0 +1,79 @@
+#include <iostream>
+#include <fstream>
+
+using std::ofstream;
+using std::ifstream;
+using std::ios;
+using std::cout;
+
+void testTextFileOutput() {
+  ofstream text_file("test.txt");   //kogato iskame da pishem vuv fail
+
+  text_file << "This is my text file\n";
+  text_file << 10 << ' ' << 5.6;
+
+  text_file.close(); //zatvarqme faila
+}
+
+void testBinaryFileOutput() {
+  ofstream binary_file("test.bin", ios::binary);
+
+  for (int i = 0; i <= 20; ++i) {
+    binary_file.put((char)i); //pishem neformatirano 
+  }
+
+  double numbers[] = { 1.2, 3.4, 5.6, 7.8 };
+  binary_file.write((const char*)numbers, sizeof(numbers)); //pozvolqva da se polzvat poveche neshta// purviqt parametur e tova, koeto iskame da zapishem vuv fail
+
+  binary_file.close();
+}
+
+void testTextFileInput() {
+  ifstream text_file("test.txt");  //iskame da vuvejdame ot tekstov fail, t.e. da gi chetem
+
+  char line[100]; // zadelqme si bufer = promenliva
+  text_file.getline(line, 100); //getline ukazva kolko dulug da e faila, kolko simvola//sled 100 moje da se dobavi nov simvol, do koito da chete, po podrazbirane e nov red 
+
+  int first_number;
+  double second_number;
+  text_file >> first_number >> second_number; //text_file e kato cin// tuk firstnumber shte prochete 10, a secondnumber = 5.6, zashtoto chete ot  nov red ili tabuilaciq
+
+  cout << "line = " << line << '\n';
+  cout << "first_number = " << first_number << '\n';
+  cout << "second_number = " << second_number << '\n';
+
+  text_file.close();
+}
+//kato zapochvame da chetem faila, zapochvame ot nachaloto 
+void testBinaryFileInput() {
+  ifstream binary_file("test.bin", ios::binary);
+
+  for (int i = 0; i <= 20; ++i) {
+    cout << binary_file.get() << '\n'; //get vzima edin simvol ot fail
+  }
+
+  double numbers[4];
+  binary_file.read((char*)numbers, 4 * sizeof(double)); //sushto stava i sizeof(number) vmesto sizeof(double)
+
+  for (int i = 0; i < 4; ++i) {
+    cout << numbers[i] << '\n';
+  }
+
+  binary_file.seekg(-2 * sizeof(double), ios::cur); //seekg - izmestva poziciqta vuv faila kudeto sme v momenta, s minus minavame nazad, ios:cur e tukushta poziciq
+  cout << binary_file.tellg() << '\n'; ///tellg ni dava tekushtata poziciq
+
+  double number;
+  binary_file.read((char*)&number, sizeof(double)); //sledvashtiq double shte e 5.6
+  cout << "number = " << number << '\n';
+
+  binary_file.close();
+}
+
+int main() {
+  testTextFileOutput();
+  testBinaryFileOutput();
+  testTextFileInput();
+  testBinaryFileInput();
+
+  return 0;
+}
