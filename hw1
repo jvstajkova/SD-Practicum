@@ -7,6 +7,9 @@ using std::ifstream;
 using std::ios;
 using std::cout;
 using std::stack; 
+using std::ios;
+using std::cerr;
+using std::endl;
 
 void readFromFile(ifstream& file) {
 
@@ -118,12 +121,10 @@ void readFromFile(ifstream& file) {
 			stackOfNumbers.pop();
 			file.ignore();
 		}
-
+		
 		file.ignore(1, ' ');
 	}
 		
-	
-
 	while (!stackOfNumbers.empty())
 	{
 		cout << stackOfNumbers.top() << " ";
@@ -141,14 +142,14 @@ void readFromFile(ifstream& file) {
 
 /*void writeToBinaryFile(ofstream& file1) {
 
-}
-*/
+}*/
+
+
+
 int main() {
 
 	ifstream myFile("expressions.txt");
 	readFromFile(myFile);
-
-
 
 	system("pause");
 	return 0;
