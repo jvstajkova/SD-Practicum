@@ -1,42 +1,36 @@
 #include <iostream>
 #include <fstream>
 #include <stack>
-using namespace std;
 
-/*using std::ofstream;
+using std::ofstream;
 using std::ifstream;
 using std::ios;
 using std::cout;
 using std::stack; 
-*/
-
-/*void expressionsInput() {
-	ifstream file;
-	file.open("expressions.txt");
-}
-*/
 
 void readFromFile(ifstream& file) {
+
+	//file.open("expressions.txt");
 
 	stack<int> stackOfNumbers;
 	char isItNumber;
 	int firstElementOfStack, secondElementOfStack, result;
-	int operands;
-	char operators;
+	int number;
+	char sign;
 
 	while (!file.eof()) {
+		//	file >> isItNumber;
 		isItNumber = file.peek();
-		if (isItNumber >= '0' && isItNumber <= '9') {
+		if (isItNumber != '+' || isItNumber != '-' || isItNumber != '/' || isItNumber != '*') {
 
-			file >> operands;
-			stackOfNumbers.push(operands);
+			file >> number;
+			stackOfNumbers.push(number);
 		}
-
 		else {
-			file >> operators;
-			cout << operators << " ";
+			file >> sign;
+			//cout << operators << " ";
 
-			switch (operators) {
+			switch (sign) {
 
 			case '+': {
 				if (stackOfNumbers.empty()) {
@@ -47,7 +41,6 @@ void readFromFile(ifstream& file) {
 					firstElementOfStack = stackOfNumbers.top();
 
 					stackOfNumbers.pop();
-
 				}
 				if (stackOfNumbers.empty()) {
 					cout << "Warning! The stack is empty!";
@@ -57,7 +50,7 @@ void readFromFile(ifstream& file) {
 
 					stackOfNumbers.pop();
 				}
-				result = firstElementOfStack + secondElementOfStack;
+				result = secondElementOfStack + firstElementOfStack;
 
 				stackOfNumbers.push(result);
 			}break;
@@ -77,7 +70,7 @@ void readFromFile(ifstream& file) {
 					secondElementOfStack = stackOfNumbers.top();
 					stackOfNumbers.pop();
 				}
-				result = firstElementOfStack - secondElementOfStack;
+				result = secondElementOfStack - firstElementOfStack;
 				stackOfNumbers.push(result);
 			}break;
 
@@ -96,7 +89,7 @@ void readFromFile(ifstream& file) {
 					secondElementOfStack = stackOfNumbers.top();
 					stackOfNumbers.pop();
 				}
-				result = firstElementOfStack / secondElementOfStack;
+				result = secondElementOfStack / firstElementOfStack;
 				stackOfNumbers.push(result);
 			}break;
 
@@ -115,24 +108,27 @@ void readFromFile(ifstream& file) {
 					secondElementOfStack = stackOfNumbers.top();
 					stackOfNumbers.pop();
 				}
-				result = firstElementOfStack * secondElementOfStack;
+				result = secondElementOfStack * firstElementOfStack;
 				stackOfNumbers.push(result);
 			}break;
-
-
 			}
-
 		}
-		file.close();
-		
+
+		if (file.peek() == ';') {
+			cout << stackOfNumbers.top() << " ";
+			stackOfNumbers.pop();
+			file.ignore();
+		}
+
+		file.ignore(1, ' ');
 	}
+		
+	
 	while (!stackOfNumbers.empty())
 	{
 		cout << stackOfNumbers.top() << " ";
 		stackOfNumbers.pop();
 	}
-
-	
 }
 /*void writeToBinaryFile(ofstream& file1) {
 
@@ -140,8 +136,9 @@ void readFromFile(ifstream& file) {
 */
 int main() {
 
-	ifstream file("expression.txt");
-	containsArithmeticExpression(file);
+	ifstream myFile("expressions.txt");
+	readFromFile(myFile);
+
 
 
 	system("pause");
