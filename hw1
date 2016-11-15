@@ -1,0 +1,149 @@
+#include <iostream>
+#include <fstream>
+#include <stack>
+using namespace std;
+
+/*using std::ofstream;
+using std::ifstream;
+using std::ios;
+using std::cout;
+using std::stack; 
+*/
+
+/*void expressionsInput() {
+	ifstream file;
+	file.open("expressions.txt");
+}
+*/
+
+void readFromFile(ifstream& file) {
+
+	stack<int> stackOfNumbers;
+	char isItNumber;
+	int firstElementOfStack, secondElementOfStack, result;
+	int operands;
+	char operators;
+
+	while (!file.eof()) {
+		isItNumber = file.peek();
+		if (isItNumber >= '0' && isItNumber <= '9') {
+
+			file >> operands;
+			stackOfNumbers.push(operands);
+		}
+
+		else {
+			file >> operators;
+			cout << operators << " ";
+
+			switch (operators) {
+
+			case '+': {
+				if (stackOfNumbers.empty()) {
+					cout << "Warning! The stack is empty! ";
+				}
+				else {
+
+					firstElementOfStack = stackOfNumbers.top();
+
+					stackOfNumbers.pop();
+
+				}
+				if (stackOfNumbers.empty()) {
+					cout << "Warning! The stack is empty!";
+				}
+				else {
+					secondElementOfStack = stackOfNumbers.top();
+
+					stackOfNumbers.pop();
+				}
+				result = firstElementOfStack + secondElementOfStack;
+
+				stackOfNumbers.push(result);
+			}break;
+
+			case '-': {
+				if (stackOfNumbers.empty()) {
+					cout << " Warning! The stack is empty! ";
+				}
+				else {
+					firstElementOfStack = stackOfNumbers.top();
+					stackOfNumbers.pop();
+				}
+				if (stackOfNumbers.empty()) {
+					cout << "Warning! The stack is empty!";
+				}
+				else {
+					secondElementOfStack = stackOfNumbers.top();
+					stackOfNumbers.pop();
+				}
+				result = firstElementOfStack - secondElementOfStack;
+				stackOfNumbers.push(result);
+			}break;
+
+			case '/': {
+				if (stackOfNumbers.empty()) {
+					cout << "Warning! The stack is empty!";
+				}
+				else {
+					firstElementOfStack = stackOfNumbers.top();
+					stackOfNumbers.pop();
+				}
+				if (stackOfNumbers.empty()) {
+					cout << "Warning! The stack is empty!";
+				}
+				else {
+					secondElementOfStack = stackOfNumbers.top();
+					stackOfNumbers.pop();
+				}
+				result = firstElementOfStack / secondElementOfStack;
+				stackOfNumbers.push(result);
+			}break;
+
+			case '*': {
+				if (stackOfNumbers.empty()) {
+					cout << "Warning! The stack is empty! ";
+				}
+				else {
+					firstElementOfStack = stackOfNumbers.top();
+					stackOfNumbers.pop();
+				}
+				if (stackOfNumbers.empty()) {
+					cout << "Warning! The stack is empty!";
+				}
+				else {
+					secondElementOfStack = stackOfNumbers.top();
+					stackOfNumbers.pop();
+				}
+				result = firstElementOfStack * secondElementOfStack;
+				stackOfNumbers.push(result);
+			}break;
+
+
+			}
+
+		}
+		file.close();
+		
+	}
+	while (!stackOfNumbers.empty())
+	{
+		cout << stackOfNumbers.top() << " ";
+		stackOfNumbers.pop();
+	}
+
+	
+}
+/*void writeToBinaryFile(ofstream& file1) {
+
+}
+*/
+int main() {
+
+	ifstream file("expression.txt");
+	containsArithmeticExpression(file);
+
+
+	system("pause");
+	return 0;
+}
