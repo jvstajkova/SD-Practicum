@@ -17,29 +17,29 @@ void readFromFile(ifstream& file) {
 	int firstElementOfStack, secondElementOfStack, result;
 	int number;
 	char sign;
+	
 
 	while (!file.eof()) {
 		//	file >> isItNumber;
 		isItNumber = file.peek();
-		if (isItNumber != '+' || isItNumber != '-' || isItNumber != '/' || isItNumber != '*') {
+		//if (isItNumber != '+' || isItNumber != '-' || isItNumber != '/' || isItNumber != '*') 
 
+		
+		if (isItNumber >= '0' && isItNumber <= '9') {
 			file >> number;
 			stackOfNumbers.push(number);
 		}
 		else {
 			file >> sign;
-			//cout << operators << " ";
+			//cout << sign << " ";
 
 			switch (sign) {
-
 			case '+': {
 				if (stackOfNumbers.empty()) {
 					cout << "Warning! The stack is empty! ";
 				}
 				else {
-
 					firstElementOfStack = stackOfNumbers.top();
-
 					stackOfNumbers.pop();
 				}
 				if (stackOfNumbers.empty()) {
@@ -47,7 +47,6 @@ void readFromFile(ifstream& file) {
 				}
 				else {
 					secondElementOfStack = stackOfNumbers.top();
-
 					stackOfNumbers.pop();
 				}
 				result = secondElementOfStack + firstElementOfStack;
@@ -124,12 +123,22 @@ void readFromFile(ifstream& file) {
 	}
 		
 	
+
 	while (!stackOfNumbers.empty())
 	{
 		cout << stackOfNumbers.top() << " ";
 		stackOfNumbers.pop();
 	}
 }
+/* stack<int> reversedStack(stack<int> stackOfNumbers) {
+	stack<int> reversed;
+	while (!stackOfNumbers.empty()) {
+		reversed.push(stackOfNumbers.top());
+		stackOfNumbers.pop();
+	}
+	return reversed;
+} */
+
 /*void writeToBinaryFile(ofstream& file1) {
 
 }
